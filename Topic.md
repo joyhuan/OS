@@ -1,11 +1,11 @@
 # Topic 
 
 Side: It's interesting how everything starts to fit into each other and makes much better sense when I look back after three years. 
-## Gates & Logic 
-## Numbers & Arithmetic 
-## State & FSMs
-## Intro to a MIPS Processor 
-## Pipelining 
+## 02 Gates & Logic 
+## 03 Numbers & Arithmetic 
+## 04 State & FSMs
+## 05 Intro to a MIPS Processor 
+## 06 Pipelining 
 ### 5-stage Pipeline
 #### Implementation 
 - Principles of Pipelined Implementation 
@@ -81,3 +81,53 @@ Next instruction PC unknown at time of Fetch
     - Control hazards occur because the	PC following a control instruction is not known	until	control	instruction	is	executed. If branch	is taken -> need to	zap	instructions. 1	cycle performance penalty.
     - Delay	Slots can potentially increase performance due to control hazards. The instruction	in	the	delay slot will always be executed. Requires software(compiler)	to make use of delay slot. Put nop in delay slot if not able to	put	useful instruction in delay slot.
     - We can reduce	cost of	a control hazard by	moving branch decision and calculation from Ex	stage to ID	stage. With a delay slot, this removes the need to flush instructions on taken branches.
+## 07 Calling Conventions 
+- The Stack 
+    - Stack	contains stack frames (aka “activation records”)
+        - 1	stack frame	per	dynamic	function
+        - Exists only for the duration of function
+        - Grows	down, “top”	of stack is $sp, r29	
+        - Example: lw $r1, 0($sp) puts word at top of stack into $r1	
+    - Each stack frame contains:
+        - Local	variables, return address (later), register backups (later)
+- The Heap 
+    - Heap holds dynamically allocated memory 
+        - Program must maintain pointers to anything allocated 
+        - Data exists from malloc() to free() 
+- Data Segment 
+    - Data segment contains global variables 
+        - Exist for all time, accessible to all routines 
+        - Accessed w/global pointer 
+            - $gp, r28, points to middle of segment 
+- Calling Convention for Procedure Calls 
+    - Transfer Control 
+        - Caller -> Routine 
+        - Routine -> Caller 
+        - Return Address lives in Stack Frame 
+            - Stack Manipulated by push/pop operations 
+    - Pass Arguments to and from the routine 
+        - fixed length, variable length, recursively 
+        - Get return value back to the caller 
+        - Pros 
+            - Consistent way of passing arguments to and from subroutines 
+            - Creates single location for all arguments 
+                - Caller makes room for $a0-$a3 on stack 
+                - Callee must copy values from $a0-$a3 to stack 
+                    - callee may treat all args as an array in memory 
+                - Particularly helpful for functions w/ variable length inputs 
+            - Aside: not a bad place to store inputs if callee needs to call a functino (your input cannot stay in $a0 if you need to call another function!)
+    - Manage Registers
+        - Allow each routine to use registers 
+        - Prevent routines from clobbering each others' data 
+        - Register Management 
+            
+            Functions: 
+            - Are compiled in isolation 
+            - Make use of general purpose registers 
+            - Call other functions in the middle of their execution 
+                - These functions also use general purpose registers! 
+                - No way to coordinate between caller & callee 
+            
+            Need a convention for register management 
+
+    
