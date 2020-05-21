@@ -194,3 +194,10 @@ Throughput(bandwidth): # of tasks in fixed time
         - Don’t optimize 1% to the detriment of other 99% 
         - Don’t over-engineer capabilities that cannot be utilized 
     - Caveat: Law of diminishing returns
+## 08 RISC, CISC, and ISA Variations 
+## 09 Linkers & Loaders 
+## 10 Caches 
+## 11 Virtual Memory 
+## 12 Exceptional Control Flow 
+## 13 Multicore 
+## 14 I/O 
