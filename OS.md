@@ -36,4 +36,58 @@
     - External Event has happened. 
     - OS needs to check it out. 
     - Process stops what it's doing, invokes OS, which handles the interrupt. 
-- Interrupt Management
+  - Interrupt Management
+      - **Interrupt controllers** manage interrupts 
+  - Aside 1: Interrupt Driven I/O
+      - Memory-mapped I/O
+          - Device communication goes over the memory bus 
+          - I/O operations by dedicated device hardware correspond to reads/writes to special addresses 
+          - Devices appear as if part of the memory address space 
+      - Interrupt-driven operation with memory-mapped I/O: 
+          - CPU initiates device operation (e.g. read from disk): writes an operation descriptor to a designated memory location
+          - CPU continues its regular computation
+          - The device asynchronously performs the operation 
+          - When the operation is complete, interrupts the CPU 
+          - Could happen for each byte read! 
+  - Aside 2: Direct Memory Access (DMA)
+- Efficient mechanism for switching modes 
+  
+## Processes & Threads 
+- What is a Program? 
+  - executable code (machine instructions)
+  - data (information manipulated by these instructions)
+
+  that together describe a computation 
+  - Resides on disk 
+  - Obtained via compilation & linking 
+- What is a Process? 
+  - An instance of a program 
+  - An abstraction of a computer: 
+  
+  Address Space + Execution Context + Environment 
+- Process != Program 
+  - A program is passive:
+  
+    code + data 
+  - A process is alive: 
+  
+    code + data + stack + registers + PC ... 
+- CPU runs each process directly
+  - But somehow each process has its own: 
+    - Registers 
+    - Memory 
+    - I/O resources 
+    - "thread of control"
+- Process Control Block (PCB) 
+  For each process, the OS has a PCB containing:
+    - location in memory
+    - location of executable on disk
+    - which user is executing this process
+    - process identifier (pid)
+    - process status (ready, waiting, finished, etc.)
+    - scheduling information
+    - kernel SP (points in interrupt stack)
+    - interrupt stack contains saved process registers
+    - … and more!
+- System Call Interface 
+- 
