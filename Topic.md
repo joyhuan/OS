@@ -129,5 +129,68 @@ Next instruction PC unknown at time of Fetch
                 - No way to coordinate between caller & callee 
             
             Need a convention for register management 
+- **Missing Caller and Callee for now; will append shortly in future**            
+## 07 Performance 
+### Performance: Latency vs. Throughput 
+Latency(execution time): time to finish a fixed task 
 
-    
+Throughput(bandwidth): # of tasks in fixed time 
+    - Different: exploit parallelism for throughput, not latency 
+    - Often contradictory (latency vs. throughput)
+        - Will see many egs of this 
+    - Use definition of performance that matched your goals 
+        - Scientific program: latency; web server: throughput? 
+
+- Processor Performance Equation 
+
+    Program runtime: seconds/program = instructions/program * cycles/instruction * seconds/cycle 
+
+    - Instructions per program: “dynamic instruction count”
+        - Runtime count of instructions executed by the program
+        - Determined by	program, compiler, ISA
+    - Cycles per instruction: “CPI” (typical range: 2 to 0.5)
+        - How many cycles does an instruction take to execute?
+        - Determined by	program, compiler, ISA, micro-architecture
+    - Seconds per cycle: clock period, length of each cycle
+        - Inverse metric: cycles/second	(Hertz)	or cycles/ns (Ghz)
+        - Determined by	micro-architecture,	technology parameters
+    For	lower latency (=better performance) minimize all three
+        - Difficult: often pull against one another
+- Mhz (MegaHertz) and Ghz(GigaHertz)
+    - 1 Hertz = 1 cycle/second 
+    - 1 Ghz = 1 cycle/nanosecond, 1 Ghz = 1000 Mhz 
+    - General public (mostly) ignores CPI
+        - Equates clock frequency with performance!
+    - Which	processor would	you	buy?
+        - Processor	A:	CPI	=	2,	clock	=	5	GHz
+        - Processor	B:	CPI	=	1,	clock	=	3	GHz
+        - Probably	A,	but	B is faster (assuming same ISA/compiler)
+    - Classic example
+        - 800 MHz PentiumIII faster than 1 GHz Pentium4!	
+        - Example: Core i7 faster clock-per-clock than	Core 2
+        - Same	ISA	and	compiler!
+    - Meta-point: danger of	partial	performance	metrics!
+- MIPS (performance metric, not the ISA)
+    - (Micro) architects of ten ignore dynamic instruction count 
+        - Typically	have one ISA, one compiler -> treat	it as fixed
+    - CPU performance equation becomes
+        - Latency: seconds/insn = cycles/insn * seconds/cycle 
+        - Throughput: insn/seconds  = insn/cycles * cycles/second 
+    - MIPS(millions of instructions per second
+        - Cycles / second: clock frequency (in MHz) 
+        - Ex: CPI = 2, clock = 500 MHz -> 0.5 * 500 MHz = 250 MIPS 
+    - Pitfall: may vary inversely with actual performance 
+         - Compiler removes insns, program faster, but lower MIPS 
+         - Work per instruction varies (multiply vs. add, FP vs. integer))
+- How to make the computer faster? 
+    - Decrease latency 
+    - Critical Path 
+        - Longest path determining the minimum time needed for an operation 
+        - Determines minimum length of clock cycle i.e. determines maximum clock frequency
+- Amdahl’s Law 
+    - Execution time after improvement = execution time affected by improvement/amount of improment + execution time unaffected
+    - Or: Speedup is limited by popularity of improved feature 
+    - Corollary: **build a balanced system** 
+        - Don’t optimize 1% to the detriment of other 99% 
+        - Don’t over-engineer capabilities that cannot be utilized 
+    - Caveat: Law of diminishing returns
