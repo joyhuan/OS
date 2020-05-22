@@ -52,7 +52,7 @@
   - Aside 2: Direct Memory Access (DMA)
 - Efficient mechanism for switching modes 
   
-## Processes & Threads 
+## 03 Processes & Threads 
 - What is a Program? 
   - executable code (machine instructions)
   - data (information manipulated by these instructions)
@@ -90,4 +90,64 @@
     - interrupt stack contains saved process registers
     - … and more!
 - System Call Interface 
-- 
+  - Beginning a Process via fork()
+    - Kernel has to: 
+      - Allocate ProcessID 
+      - Create & initialize PCB in the kernel 
+      - Creat a new address space 
+      - Initialize the address space with a copy of the entire contents of the address space of the parent 
+      - Inherit execution context of parent (eg. open files)
+      - Inform scheduler that new process is ready to run 
+- What is a Shell? 
+  - Job control system 
+  - runs programs on behalf of the user 
+  - allows programmer to create/manage programs 
+    - sh Original Unix shell 
+    - csh 
+    - bash 
+  - Runs at user-level. Uses syscalls: fork, exec, etc.
+- Sendign a Signal 
+  - Kernel delivers a signal to a destination process for one of the following reasons: 
+    - Kernel detected a system event (eg. div-by-zero (SIGFPE) or termination of a child (SIGCHLD)) )
+    - A process invoked the **kill system call** requesting kernel to send signal to a process
+      - debugging
+      - suspension
+      - resumption
+      - timer expiration 
+
+- Receiving a Signal 
+  - Three possible ways to react: 
+    1. Ignore the signal (do nothing)
+    2. Terminate process (+ optional core dump)
+    3. Catch the signal by executing a user-level function called signal handler
+      - Like a hardware exception handler being called in response to an asynchronous interrupt 
+
+- Threads! 
+  - Other terms for threads
+    - Lightweight Process 
+    - Thread of Control 
+    - Task 
+  -  Process vs. Thread 
+    - Process
+      - Privilege Level 
+      - Address Space 
+      - Code, Data, Heap 
+      - Shared I/O resources 
+      - One of more Threads: 
+        - Stack
+        - Registers 
+        - PC, SP 
+    - Process abstraction combines two concepts
+        - Concurrency: each process is a sequential execution stream of instructions
+        - Protection: Each process has own address space
+    - Threads decouple concurrency & protection
+        - A thread represents a sequential execution stream of instructions.
+        - A process defines the address space that may be shared by multiple threads
+        - Threads must be mutually trusting. Why?
+
+  - Implementation of Threads 
+     - One abstraction, two implementations:
+        - 1. “kernel threads”: each thread has its own PCB in the kernel, but the PCBs point to the same physical memory
+        - 2. “user threads”: one PCB for the process; threads implemented entirely in user space. Each thread has its own Thread Control Block (TCB)
+  
+## 04  
